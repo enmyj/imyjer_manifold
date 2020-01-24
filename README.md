@@ -30,7 +30,7 @@ source_code_hash = "${filebase64sha256("../lambda.zip")}"
 
 The REST API can be deployed using the following code:
 ```bash
-git clone <path_to_repo> && cd <manifold_ian>
+git clone git@github.com:enmyj/imyjer_manifold.git && cd imyjer_manifold
 bash deploy.sh
 ```
 Note: This deployment creates an AWS S3 bucket. Since buckets must have globally unique names, the bucket name may need to be changed in `terraform/vars.tf`: 
