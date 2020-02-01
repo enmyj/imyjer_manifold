@@ -1,4 +1,4 @@
-name: imyjer-manifold
+name: base
 channels:
   - defaults
   - conda-forge
