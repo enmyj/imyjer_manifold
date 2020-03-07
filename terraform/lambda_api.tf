@@ -53,18 +53,20 @@ EOF
 # LAMBDA
 ############################################
 
+data "archive_file" "init" {
+  type = "zip"
+  output_path = "lambda.zip"
+  source_file = "../pylambda/lambda_to_s3_nopandas.py"
+}
+
 resource "aws_lambda_function" "manifold_ian_api" {
   function_name = "${var.function_name}"
   role = "${aws_iam_role.lambda_role.arn}"
   handler = "${var.handler}"
   runtime = "${var.runtime}"
 
-  # # fetch the artifact from bucket created earlier
-  # s3_bucket = "${var.artifact_bucket}"
-  # s3_key    = "v1.0.0/${var.artifact_zip_name}"
-
-  source_code_hash = "${base64sha256(file("../lambda.zip"))}"
-  filename      = "../lambda.zip"
+  source_code_hash = "${data.archive_file.init.output_base64sha256}"
+  filename = "${data.archive_file.init.output_path}"
 
   environment {
     variables = {
