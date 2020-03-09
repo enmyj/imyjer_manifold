@@ -1,6 +1,6 @@
 provider "aws" {
-  profile    = "${var.profile}"
-  region     = "${var.region}"
+  profile = var.profile
+  region  = var.region
 }
 
 variable "region" {
@@ -47,3 +47,4 @@ variable "api_name" {
 variable "api_path_part" {
   default = "v1.0"
 }
+

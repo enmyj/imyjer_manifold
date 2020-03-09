@@ -20,12 +20,12 @@ resource "aws_iam_role" "glue_crawler_role" {
   ]
 }
 EOF
+
 }
 
-
 resource "aws_iam_role_policy" "glue_crawler_role_policy" {
-  name = "analytics_glue_crawler_role_policy"
-  role = "${aws_iam_role.glue_crawler_role.id}"
+  name   = "analytics_glue_crawler_role_policy"
+  role   = aws_iam_role.glue_crawler_role.id
   policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -67,8 +67,8 @@ resource "aws_iam_role_policy" "glue_crawler_role_policy" {
   ]
 }
 EOF
-}
 
+}
 
 ############################################
 # Glue Crawler and Database
@@ -79,9 +79,9 @@ resource "aws_glue_catalog_database" "manifold-db" {
 }
 
 resource "aws_glue_crawler" "manifold_crawler" {
-  database_name = "${aws_glue_catalog_database.manifold-db.name}"
-  name = "manifold-glue-crawler"
-  role = "${aws_iam_role.glue_crawler_role.arn}"
+  database_name = aws_glue_catalog_database.manifold-db.name
+  name          = "manifold-glue-crawler"
+  role          = aws_iam_role.glue_crawler_role.arn
 
   # schedule = "cron(* * * * ? *)"
 
@@ -94,20 +94,19 @@ resource "aws_glue_crawler" "manifold_crawler" {
 
 resource "aws_glue_catalog_table" "manifold-table" {
   name          = "manifold_table"
-  database_name = "${aws_glue_catalog_database.manifold-db.name}"
-  
+  database_name = aws_glue_catalog_database.manifold-db.name
+
   # partition_keys {
   #   name = "timestamp"
   # }
 
   storage_descriptor {
-    location = "s3://${aws_s3_bucket.data_bucket.bucket}/data/"
-    input_format = "org.apache.hadoop.mapred.TextInputFormat"
+    location      = "s3://${aws_s3_bucket.data_bucket.bucket}/data/"
+    input_format  = "org.apache.hadoop.mapred.TextInputFormat"
     output_format = "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
 
-
     ser_de_info {
-      name = "manifold-serde"
+      name                  = "manifold-serde"
       serialization_library = "org.openx.data.jsonserde.JsonSerDe"
 
       parameters = {
@@ -116,8 +115,8 @@ resource "aws_glue_catalog_table" "manifold-table" {
     }
 
     columns {
-        name = "first_name"
-        type = "string"
+      name = "first_name"
+      type = "string"
     }
 
     columns {
@@ -126,27 +125,28 @@ resource "aws_glue_catalog_table" "manifold-table" {
     }
 
     columns {
-      name    = "last_name"
-      type    = "string"
+      name = "last_name"
+      type = "string"
     }
 
     columns {
-      name    = "zip_code"
-      type    = "string"
+      name = "zip_code"
+      type = "string"
     }
 
     columns {
-      name    = "timestamp"
-      type    = "timestamp"
+      name = "timestamp"
+      type = "timestamp"
     }
 
-		stored_as_sub_directories = "false"
+    stored_as_sub_directories = "false"
   }
 
   parameters = {
-    classification = "json"
-    typeOfData = "file"
+    classification     = "json"
+    typeOfData         = "file"
     UPDATED_BY_CRAWLER = "manifold-glue-crawler"
-    compressionType = "none"
+    compressionType    = "none"
   }
 }
+
