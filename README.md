@@ -7,7 +7,7 @@ author: Ian Myjer
 These instructions assume the following tools are installed on the machine performing the deployment:
 
   - `aws-cli`    
-  - `terraform` version v0.11.11     
+  - `terraform` version > v0.12     
   - `bash`      
 
 The `awscli` must also be configured with [user credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html#cli-quick-configuration). Terraform is currently assuming the "default" credentials will be used. This can be changed in the `terraform/vars.tf` file:
