@@ -8,7 +8,6 @@ These instructions assume the following tools are installed on the machine perfo
 
   - `aws-cli`    
   - `terraform` version > v0.12     
-  - `bash`      
 
 The `awscli` must also be configured with [user credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html#cli-quick-configuration). Terraform is currently assuming the "default" credentials will be used. This can be changed in the `terraform/vars.tf` file:
 ```terraform
@@ -56,6 +55,12 @@ Once `deploy.sh` has been run successfully and a few POST requests have been mad
 
 
 # Ian's Thoughts/Comments
+
+### Alex's comments from last review
+
+1. Lambda layers to separate python package management from python lambda code
+2. Glue classifier to make partitions work automatically
+
 
 ### Improvements
 
