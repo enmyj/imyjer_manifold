@@ -16,14 +16,6 @@ variable "profile" {
   default = "default"
 }
 ```
-If a newer version of `terraform` is being used, the following line must be changed in `terraform/lambda_api.tf`
-```terraform
-# version 0.11.11 or older 
-source_code_hash = "${base64sha256(file("../lambda.zip"))}"
-
-# version 0.11.12 or newer
-source_code_hash = "${filebase64sha256("../lambda.zip")}"
-```
 
 
 ## REST API Deploy
@@ -31,8 +23,10 @@ source_code_hash = "${filebase64sha256("../lambda.zip")}"
 The REST API can be deployed using the following code:
 ```bash
 git clone git@github.com:enmyj/imyjer_manifold.git && cd imyjer_manifold
-bash deploy.sh
+bash deploy.sh # linux/mac
+.\deploy.ps1 # powershell
 ```
+
 Note: This deployment creates an AWS S3 bucket. Since buckets must have globally unique names, the bucket name may need to be changed in `terraform/vars.tf`: 
 ```terraform
 variable "data_bucket" {
